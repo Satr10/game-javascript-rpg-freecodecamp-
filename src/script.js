@@ -123,7 +123,7 @@ function buyHealth() {
         updateText();
     }
     else {
-        text.innerText = "Anda tidak memiliki uang untuk membeli health";
+        text.innerText = "Anda tidak memiliki uang untuk membeli HP";
     }
 
 }
