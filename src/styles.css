@@ -18,6 +18,14 @@ body {
 	height: 100vh;
 }
 
+.stat #healthText {
+  color: green;
+}
+
+.stat #goldText {
+  color: rgb(199, 171, 15);
+}
+
 #text {
   background-color: var(--secondary);
   backdrop-filter: blur(10px);

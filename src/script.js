@@ -1,6 +1,6 @@
 let xp = 0;
 let health = 100;
-let gold = 5000;
+let gold = 500;
 let currentWeapon = 0;
 let fighting;
 let monsterHealth;
@@ -43,12 +43,12 @@ const monsters = [
     },
     {
         name: "Fanged Beast",
-        level: 2,
+        level: 8,
         health: 60
     },
     {
         name: "Dragon",
-        level: 2,
+        level: 20,
         health: 300
     },
 ]
@@ -74,13 +74,13 @@ const locations = [
     },
     {
         name: "Fight",
-        "button-text": ["Serang", "Menghindar", "Kembali ke Alun-Alun"],
-        "button-function": [attack, dodge, goTown],
+        "button-text": ["Serang", "Menghindar", "Kabur 🏃💨"],
+        "button-function": [attack, dodge, kabur],
         text: "Sedang bertarung dengan monster"
     },
     {
         name: "Kill monster",
-        "button-text": ["Kembali ke Alun-alun", "Kembali ke Alun-alun", "Kembali ke Alun-Alun"],
+        "button-text": ["Kembali ke Alun-alun", "Kembali ke Alun-alun ", "Kembali ke Alun-Alun"],
         "button-function": [goTown, goTown, goTown],
         text: "Monsternya berteriak \"AARGGH\" saat dia mati. Kamu mendapatkan XP dan menemukan gold"
     },
@@ -90,6 +90,12 @@ const locations = [
         "button-function": [restart, restart, restart],
         text: "Kamu mati ☠️☠️☠️"
     },
+    {
+        name: "Win",
+        "button-text": ["Replay?", "Replay?", "Replay?"],
+        "button-function": [restart, restart, restart],
+        text: "Kamu menang 🏆🏆🏆"
+    }
 ]
 
 const now = new Date();
@@ -203,15 +209,36 @@ function attack() {
     autoScroll()
     text.innerText += `\n${waktu} > Kamu menyerang dengan ` + weapons[currentWeapon].name + ".";
     autoScroll()
-    health -= monsters[fighting].level;
+    if (isMonsterHit()) {
+        health -= getMonsterAttackValue(monsters[fighting].level);
+        updateText();
+    } else {
+        text.innerText += `\n${waktu} > ` + "kamu gagal menyerang.";
+        autoScroll()
+    }
     monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;
     updateText();
     monsterHealthText.innerText = monsterHealth
     if (health <= 0) {
         lose();
     } else if (monsterHealth <= 0) {
-        defeatMonster();
+        /*if else one line*/
+        fighting === 2 ? winGame() : defeatMonster();
     }
+    if (Math.random() <= .1 && inventory.length !== 1) {
+        text.innerText += `\n${waktu} > ` + inventory.pop() + "-mu rusak";
+        currentWeapon--;
+    }
+}
+
+function isMonsterHit() {
+	return Math.random() > .2 || health < 20;
+}
+
+function getMonsterAttackValue(level) {
+    let hit = (level * 5) - (Math.floor(Math.random() * xp));
+    console.log(hit);
+    return hit;
 }
 
 function defeatMonster() {
@@ -222,11 +249,39 @@ function defeatMonster() {
 }
 
 function lose() {
-
+    update(locations[5])
 }
 
 function dodge() {
+    let rng = Math.floor(Math.random() * 10);
+    if (rng <= 5) {
+        health -= monsters[fighting].level;
+        text.innerText += `\n${waktu} > gagal menghindar!`
+        updateText()
+    } else {
+        text.innerText += `\n${waktu} > Kamu menghindari serangan!`
+    }
+    if (health <= 0) {
+        lose();
+    }
+}
 
+function kabur() {
+    let rng = Math.floor(Math.random() * 10);
+    if (rng <= 5) {
+        health -= monsters[fighting].level;
+        text.innerText += `\n${waktu} > gagal menghindar!`
+        updateText()
+    } else {
+        text.innerText += `\n${waktu} > Kamu berhasil kabur`
+        goTown()
+    }
+    if (health <= 0) {
+        lose();
+    } else if (monsterHealth <= 0) {
+        /*if else one line*/
+        fighting === 2 ? winGame() : defeatMonster();
+    }
 }
 
 function fightDragon() {
@@ -235,7 +290,17 @@ function fightDragon() {
 }
 
 function restart() {
+    xp = 0;
+    health =100;
+    gold = 50;
+    currentWeapon = 0;
+    inventory = ["stick"];
+    updateText();
+    goTown()
+}
 
+function winGame() {
+    update(locations[6])
 }
 
 function updateText() {
