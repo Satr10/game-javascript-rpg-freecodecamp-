@@ -1,41 +1,73 @@
+  :ROOT
+  {
+  --text: rgb(243, 243, 241);
+  --background: rgb(8, 8, 6);
+  --primary: rgb(206, 204, 176);
+  --secondary: rgb(115, 111, 61);
+  --accent: rgb(189, 183, 112);
+  }
+
 body {
-    background-color: darkblue;
-  }
-  
-  #text {
-    background-color: black;
-    color: white;
-    padding: 10px;
-  }
-  
-  #game {
-    max-width: 500px;
-    max-height: 400px;
-    background-color: lightgray;
-    color: white;
-    margin: 0 auto;
-    padding: 10px;
-  }
-  
-  #controls {
-    border: 1px black solid;
-    padding: 5px;
-  }
-  
-  #stats {
-    border: 1px black solid;
-    color: black;
-    padding: 5px;
-  }
-  
-  #monsterStats {
-    display: none;
-    border: 1px black solid;
-    color: white;
-    padding: 5px;
-    background-color: red;
-  }
-  
-  .stat {
-    padding-right: 10px;
-  }
+  background: var(--background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+}
+
+#text {
+  background-color: var(--secondary);
+  backdrop-filter: blur(10px);
+  color: var(--text);
+  padding: 10px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+#game {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  max-height: 400px;
+  background-color: var(--primary);
+  color: var(--text);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px black solid;
+  border-bottom: 0;
+  padding: 5px;
+}
+
+#stats {
+  display: flex;
+  justify-content: space-around;
+  border: 1px black solid;
+  border-bottom: 0;
+  color: black;
+  padding: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+#monsterStats {
+  display: none;
+  justify-content: space-between;
+  display: none;
+  border: 1px black solid;
+  color: white;
+  padding: 5px;
+  background-color: red;
+}
+
+.stat {
+  padding-right: 10px;
+}

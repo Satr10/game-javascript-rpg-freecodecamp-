@@ -174,7 +174,7 @@ function fightBeast() {
 function goFight() {
     update(locations[3]);
     monsterHealth = monsters[fighting].health;
-    monsterStats.style.display = "block";
+    monsterStats.style.display = "flex";
     monsterNameText.innerText = monsters[fighting].name;
     monsterHealthText.innerText = monsterHealth;
 }
