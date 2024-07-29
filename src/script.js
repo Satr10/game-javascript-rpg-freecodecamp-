@@ -92,7 +92,15 @@ const locations = [
     },
 ]
 
+const now = new Date();
+const waktu = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+
 updateText();
+
+function autoScroll() {
+    const text = document.getElementById('text');
+    text.scrollTop = text.scrollHeight;
+}
 
 function update(location) {
     button1.innerText = location["button-text"][0];
@@ -101,7 +109,8 @@ function update(location) {
     button1.onclick = location["button-function"][0];
     button2.onclick = location["button-function"][1];
     button3.onclick = location["button-function"][2];
-    text.innerText = location.text;
+    text.innerText += `\n${waktu} > ` + location.text;
+    autoScroll()
     monsterStats.style.display = "none";
 }
 
@@ -121,9 +130,12 @@ function buyHealth() {
         gold -= 10;
         health += 10;
         updateText();
+        text.innerText += `\n${waktu} > health +10, total health ${health}`
+        autoScroll()
     }
     else {
-        text.innerText = "Anda tidak memiliki uang untuk membeli HP";
+        text.innerText += `\n${waktu} > tidak memiliki uang untuk membeli HP`;
+        autoScroll()
     }
 
 }
@@ -133,17 +145,21 @@ function buyWeapon() {
             gold -= 30;
             currentWeapon ++;
             let newWeapon = weapons[currentWeapon];
-            text.innerText = "Anda membeli senjata baru " + newWeapon.name + ", dengan power"+ newWeapon.power +".";
+            text.innerText += `\n${waktu} > Anda membeli senjata baru ` + newWeapon.name + ", dengan power"+ newWeapon.power +".";
+            autoScroll()
             inventory.push(newWeapon.name);
             updateText();
-            text.innerText += "\nDi penyimpanan kamu memiliki " + inventory;
+            text.innerText += `\n${waktu} > Di penyimpanan kamu memiliki ` + inventory;
+            autoScroll()
         }
         else {
-            text.innerText = "Anda tidak memiliki uang untuk membeli senjata";
+            text.innerText += `\n${waktu} > Anda tidak memiliki uang untuk membeli senjata`;
+            autoScroll()
         }
     }
     else {
-        text.innerText = "Sudah Maksimal";
+        text.innerText += `\n${waktu} > Sudah Maksimal`;
+        autoScroll()
         button2.innerText = "Jual senjata untuk 15gold";
         button2.onclick = sellWeapon;
     }
@@ -154,11 +170,14 @@ function sellWeapon() {
         gold+=10
         goldText.innerText = gold;
         let currentWeapon = inventory.shift();
-        text.innerText = "Kamu menjual" + currentWeapon;
-        text.innerText += "\nDi penyimpanan kamu memiliki " + inventory;
+        text.innerText += `\n${waktu} > Kamu menjual` + currentWeapon;
+        autoScroll()
+        text.innerText += `\n${waktu} > Di penyimpanan kamu memiliki ` + inventory;
+        autoScroll()
     }
     else {
-        text.innerText = "Jangan jual senjata satu satunya milik kamu!!!"
+        text.innerText += `\n${waktu} > Jangan jual senjata satu satunya milik kamu!!!`
+        autoScroll()
     }
 }
 
@@ -180,8 +199,10 @@ function goFight() {
 }
 
 function attack() {
-    text.innerText = monsters[fighting].name + " menyerang.";
-    text.innerText += "\nKamu menyerang dengan " + weapons[currentWeapon].name + ".";
+    text.innerText += `\n${waktu} > ` + monsters[fighting].name + " menyerang.";
+    autoScroll()
+    text.innerText += `\n${waktu} > Kamu menyerang dengan ` + weapons[currentWeapon].name + ".";
+    autoScroll()
     health -= monsters[fighting].level;
     monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;
     updateText();

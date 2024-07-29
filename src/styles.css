@@ -23,15 +23,17 @@ body {
   backdrop-filter: blur(10px);
   color: var(--text);
   padding: 10px;
+  height: 100%;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  overflow: auto;
 }
 
 #game {
   display: flex;
   flex-direction: column;
   width: 500px;
-  max-height: 400px;
+  height: 400px;
   background-color: var(--primary);
   color: var(--text);
   padding: 10px;
@@ -62,7 +64,6 @@ body {
 #monsterStats {
   display: none;
   justify-content: space-between;
-  display: none;
   border: 1px black solid;
   color: white;
   padding: 5px;
